@@ -1,14 +1,30 @@
 import express from "express";
+import { mapOrder } from "~/utils/sorts.js";
 
 const app = express();
 
-const PORT = 3000;
+const hostname = "localhost";
+const port = 8017;
 
-app.get("/", function (req, res) {
-  res.send("Hello world !");
+app.get("/", (req, res) => {
+  // Test Absolute import mapOrder
+  console.log(
+    mapOrder(
+      [
+        { id: "id-1", name: "One" },
+        { id: "id-2", name: "Two" },
+        { id: "id-3", name: "Three" },
+        { id: "id-4", name: "Four" },
+        { id: "id-5", name: "Five" },
+      ],
+      ["id-5", "id-4", "id-2", "id-3", "id-1"],
+      "id"
+    )
+  );
+  res.end("<h1>Hello World!</h1><hr>");
 });
 
-app.listen(PORT, function (error) {
-  if (error) console.log("Error when start server");
-  else console.log(`Server running on port ${PORT}`);
+app.listen(port, hostname, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Hey My name is Bao, I am running at ${hostname}:${port}/`);
 });
