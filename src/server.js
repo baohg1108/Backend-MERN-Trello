@@ -4,17 +4,14 @@ import "dotenv/config";
 import { CONNECT_DB, GET_DB, CLOSE_DB } from "./config/mongodb";
 import { env } from "~/config/environment";
 
+//router
+import { APIs_V1 } from "~/routes/v1/";
+
 const START_SERVER = () => {
   const app = express();
 
-  const APP_HOST = "localhost";
-  const port = 8017;
-
-  app.get("/", async (req, res) => {
-    console.log(await GET_DB().listCollections().toArray());
-
-    res.end("Hello");
-  });
+  //router
+  app.use("/v1", APIs_V1);
 
   app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
