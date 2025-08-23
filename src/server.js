@@ -1,26 +1,30 @@
 import express from "express";
 import exitHook from "async-exit-hook";
+import "dotenv/config";
 import { CONNECT_DB, GET_DB, CLOSE_DB } from "~/configs/mongodbConfig";
+import { env } from "~/configs/environmentConfig";
 
 const START_SERVER = () => {
   const app = express();
-  const hostname = "localhost";
-  const port = 8017;
+  const APP_HOST = env.APP_HOST;
+  const APP_PORT = env.APP_PORT || 3000;
 
   app.get("/", async (req, res) => {
     console.log(await GET_DB().listCollections().toArray());
     res.end("<h1>Hello.<h1>");
   });
 
-  app.listen(port, hostname, () => {
-    console.log(`3. Server running at http://${hostname}:${port}/`);
+  app.listen(APP_PORT, APP_HOST, () => {
+    console.log(
+      `3. Hi ${env.AUTHOR}. Server running at http://${APP_HOST}:${APP_PORT}/`
+    );
   });
 
   // Thực hiện cleanup khi dừng server
   exitHook(() => {
     console.log("4. Disconnecting to MongoDB Atlas");
-    return CLOSE_DB();
-    // console.log("5. Disconnected to MongoDB Atlas");
+    CLOSE_DB();
+    console.log("5. Disconnected to MongoDB Atlas");
   });
 };
 
