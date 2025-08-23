@@ -1,19 +1,15 @@
-const MONGODB_URI =
-  "mongodb+srv://hoanggiabao110820055:1B4zE31pcoz7PPo1@cluster0-hoanggiabao.nqvfjda.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0-HoangGiaBao";
-
-const DATABASE_NAME = "backend-mern-trello";
-
+import { env } from "~/configs/environmentConfig";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
 // Khởi tạo một đối tượng trelloDatabaseInstance là null (chưa connect)
 let trelloDatabaseInstance = null;
 
-const mongoClientInstance = new MongoClient(MONGODB_URI, {
-  // serverApi: {
-  //   version: ServerApiVersion.v1,
-  //   strict: true,
-  //   deprecationErrors: true,
-  // },
+const mongoClientInstance = new MongoClient(env.MONGODB_URI, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
 });
 
 // Kết nối database
@@ -22,7 +18,7 @@ export const CONNECT_DB = async () => {
   await mongoClientInstance.connect();
 
   // kết nối thành công gán ngược lại trelloDatabaseInstance
-  trelloDatabaseInstance = mongoClientInstance.db(DATABASE_NAME);
+  trelloDatabaseInstance = mongoClientInstance.db(env.DATABASE_NAME);
 };
 
 export const CLOSE_DB = async () => {
