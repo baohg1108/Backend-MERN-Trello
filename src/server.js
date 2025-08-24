@@ -10,6 +10,9 @@ const START_SERVER = () => {
   const APP_HOST = env.APP_HOST;
   const APP_PORT = env.APP_PORT || 3000;
 
+  app.use(express.json());
+
+  // use APIs_V1
   app.use("/v1", APIs_V1);
 
   app.listen(APP_PORT, APP_HOST, () => {
