@@ -3,16 +3,14 @@ import exitHook from "async-exit-hook";
 import "dotenv/config";
 import { CONNECT_DB, GET_DB, CLOSE_DB } from "~/configs/mongodbConfig";
 import { env } from "~/configs/environmentConfig";
+import { APIs_V1 } from "./routes/v1";
 
 const START_SERVER = () => {
   const app = express();
   const APP_HOST = env.APP_HOST;
   const APP_PORT = env.APP_PORT || 3000;
 
-  app.get("/", async (req, res) => {
-    console.log(await GET_DB().listCollections().toArray());
-    res.end("<h1>Hello.<h1>");
-  });
+  app.use("/v1", APIs_V1);
 
   app.listen(APP_PORT, APP_HOST, () => {
     console.log(
