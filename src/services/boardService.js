@@ -1,12 +1,22 @@
 import { slugify } from "~/utils/formatters";
+import { boardModel } from "~/models/boardModel";
 
 const createNew = async (reqBody) => {
   try {
-    // xử lý dữ liệu optinal
+    // xử lý dữ liệu optional
     const newBoard = { ...reqBody, slug: slugify(reqBody.title) };
-    return newBoard;
+
+    // gọi tới Models xử lý Database
+    const createdBoard = await boardModel.createNew(newBoard);
+    console.log(createdBoard);
+
+    // Lấy bản ghi khi được gọi
+    const getNewBoard = await boardModel.findOneById(createdBoard.insertedId);
+    console.log(getNewBoard);
+
+    return getNewBoard;
   } catch (error) {
-    throw error;
+    throw new Error(error);
   }
 };
 
