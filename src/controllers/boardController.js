@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import ApiError from "~/utils/ApiErrorUtil";
+import { boardService } from "~/services/boardService";
 
 const createNew = async (req, res, next) => {
   try {
@@ -10,10 +10,11 @@ const createNew = async (req, res, next) => {
     // console.log(req.cookies);
     // console.log(req.jwtDecode);
 
+    // điều hướng dữ liệu qua service
+    const createdBoard = await boardService.createNew(req.body);
+
     // throw new ApiError(StatusCodes.BAD_GATEWAY, "Test error when use ApiError");
-    res.status(StatusCodes.CREATED).json({
-      message: "POST from Controller",
-    });
+    res.status(StatusCodes.CREATED).json(createdBoard);
   } catch (error) {
     next(error);
   }
