@@ -4,6 +4,7 @@ import "dotenv/config";
 import { CONNECT_DB, GET_DB, CLOSE_DB } from "~/configs/mongodbConfig";
 import { env } from "~/configs/environmentConfig";
 import { APIs_V1 } from "./routes/v1";
+import { errorHandlingMiddleware } from "./middlewares/errorHandlingMiddleware";
 
 const START_SERVER = () => {
   const app = express();
@@ -14,6 +15,9 @@ const START_SERVER = () => {
 
   // use APIs_V1
   app.use("/v1", APIs_V1);
+
+  // handling error concentrate
+  app.use(errorHandlingMiddleware);
 
   app.listen(APP_PORT, APP_HOST, () => {
     console.log(

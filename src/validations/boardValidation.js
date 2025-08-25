@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { StatusCodes } from "http-status-codes";
+import ApiError from "~/utils/ApiErrorUtil";
 
 const createNew = async (req, res, next) => {
   // https://stackoverflow.com/questions/48720942/node-js-joi-how-to-display-a-custom-error-messages
@@ -20,9 +21,9 @@ const createNew = async (req, res, next) => {
     });
     next();
   } catch (error) {
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
-      errors: new Error(error).message,
-    });
+    next(
+      new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message)
+    );
   }
 };
 
