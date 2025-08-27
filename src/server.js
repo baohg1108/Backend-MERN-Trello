@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+import { corsOptions } from "./configs/corsConfig";
 import exitHook from "async-exit-hook";
 import "dotenv/config";
 import { CONNECT_DB, GET_DB, CLOSE_DB } from "~/configs/mongodbConfig";
@@ -8,9 +10,12 @@ import { errorHandlingMiddleware } from "./middlewares/errorHandlingMiddleware";
 
 const START_SERVER = () => {
   const app = express();
+  // xử lý cors
+  app.use(cors(corsOptions));
   const APP_HOST = env.APP_HOST;
   const APP_PORT = env.APP_PORT || 3000;
 
+  // json
   app.use(express.json());
 
   // use APIs_V1
