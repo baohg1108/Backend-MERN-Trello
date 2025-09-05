@@ -1,6 +1,7 @@
 import Joi from "joi";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "~/utils/ApiErrorUtil";
+import { BOARD_TYPE } from "~/utils/constants";
 
 const createNew = async (req, res, next) => {
   // https://stackoverflow.com/questions/48720942/node-js-joi-how-to-display-a-custom-error-messages
@@ -13,6 +14,7 @@ const createNew = async (req, res, next) => {
       "string.trim": `"a" should be a type of 'text'`,
     }),
     description: Joi.string().required().min(3).max(256).trim().strict(),
+    type: Joi.string().valid(BOARD_TYPE.PRIVATE, BOARD_TYPE.PUBLIC).required(),
   });
 
   try {
